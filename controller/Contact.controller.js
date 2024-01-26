@@ -81,7 +81,8 @@ const deleteContact=async (req,res)=>{
         if (!response) {
             return res.status(404).json({ message: 'Contact not found' });
         }
-        return res.status(200).json(response);
+        await response.destroy();
+        return res.status(204).json('Contact deleted successfully');
     }catch(err){
         console.log(err);
         return res.status(400).json(err);
