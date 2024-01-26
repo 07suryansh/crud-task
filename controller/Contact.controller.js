@@ -51,4 +51,41 @@ const getContact=async (req,res)=>{
     }
 }
 
-module.exports={createContact,getContact}
+const updateContact=async (req,res)=>{
+    console.log('getContact running');
+    const {id}=req.params;
+    const { first_name, last_name, email, mobile_number } = req.body;
+    try{
+        const response=await Contact.findByPk(id);
+        if (!response) {
+            return res.status(404).json({ message: 'Contact not found' });
+        }
+        if (first_name !== undefined) response.first_name = first_name;
+        if (last_name !== undefined) response.last_name = last_name;
+        if (email !== undefined) response.email = email;
+        if (mobile_number !== undefined) response.mobile_number = mobile_number;
+
+        // Update the contact with the provided fields
+        const updatedContact = await response.save();
+        return res.status(200).json(updatedContact);
+    }catch(err){
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
+const deleteContact=async (req,res)=>{
+    console.log('getContact running');
+    const {id}=req.params;
+    try{
+        const response=await Contact.findByPk(id);
+        if (!response) {
+            return res.status(404).json({ message: 'Contact not found' });
+        }
+        return res.status(200).json(response);
+    }catch(err){
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
+
+module.exports={createContact,getContact,updateContact,deleteContact}
