@@ -3,7 +3,6 @@ const Contact=require('../Model/Contact.model')
 
 const createContact= async (req,res)=>{
     const {first_name, last_name, email, mobile_number}=req.body;
-    console.log('createContact running');
     try{
         // const response = await axios.post(
         //     'https://domain.myfreshworks.com/crm/sales/api/contacts',
@@ -26,18 +25,14 @@ const createContact= async (req,res)=>{
 
         // saving record in database
         const response=await Contact.create({first_name, last_name, email, mobile_number})
-        console.log(response);
-
         return res.status(201).json(response.data);
     }
     catch(err){
-        console.log(err);
         return res.status(400).json(err);
     }
 }
 
 const getContact=async (req,res)=>{
-    console.log('getContact running');
     const {id}=req.params;
     try{
         const response=await Contact.findByPk(id);
@@ -46,13 +41,11 @@ const getContact=async (req,res)=>{
         }
         return res.status(200).json(response);
     }catch(err){
-        console.log(err);
         return res.status(400).json(err);
     }
 }
 
 const updateContact=async (req,res)=>{
-    console.log('getContact running');
     const {id}=req.params;
     const { first_name, last_name, email, mobile_number } = req.body;
     try{
@@ -69,12 +62,10 @@ const updateContact=async (req,res)=>{
         const updatedContact = await response.save();
         return res.status(200).json(updatedContact);
     }catch(err){
-        console.log(err);
         return res.status(400).json(err);
     }
 }
 const deleteContact=async (req,res)=>{
-    console.log('getContact running');
     const {id}=req.params;
     try{
         const response=await Contact.findByPk(id);
@@ -84,7 +75,6 @@ const deleteContact=async (req,res)=>{
         await response.destroy();
         return res.status(204).json('Contact deleted successfully');
     }catch(err){
-        console.log(err);
         return res.status(400).json(err);
     }
 }
