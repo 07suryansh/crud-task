@@ -1,8 +1,9 @@
 const axios=require('axios');
 const Contact=require('../Model/Contact.model')
+
 const createContact= async (req,res)=>{
     const {first_name, last_name, email, mobile_number}=req.body;
-    console.log('hi');
+    console.log('createContact running');
     try{
         // const response = await axios.post(
         //     'https://domain.myfreshworks.com/crm/sales/api/contacts',
@@ -34,4 +35,20 @@ const createContact= async (req,res)=>{
         return res.status(400).json(err);
     }
 }
-module.exports={createContact}
+
+const getContact=async (req,res)=>{
+    console.log('getContact running');
+    const {id}=req.params;
+    try{
+        const response=await Contact.findByPk(id);
+        if (!response) {
+            return res.status(404).json({ message: 'Contact not found' });
+        }
+        return res.status(200).json(response);
+    }catch(err){
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
+
+module.exports={createContact,getContact}
